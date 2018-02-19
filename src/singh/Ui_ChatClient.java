@@ -64,7 +64,7 @@ public class Ui_ChatClient implements com.trolltech.qt.QUiForm<QDialog> {
 	void retranslateUi(QDialog ChatClient) {
 		ChatClient.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("ChatClient", "Chat Client", null));
 		sendButton.setText(com.trolltech.qt.core.QCoreApplication.translate("ChatClient", "Send", null));
-		sendButton.clicked.connect(this, "test()");
+		sendButton.clicked.connect(this, "test()");// Verbinden von sendButton und der Funktion test()
 	} // retranslateUi
 	public void test(){
 		System.out.println(input.text());
