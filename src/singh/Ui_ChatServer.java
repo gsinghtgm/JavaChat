@@ -1,8 +1,14 @@
 package singh;
 
+import java.util.List;
+
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.gui.*;
-
+/**
+ * SimpleChat - Server GUI; konvertiert mittels Jambi.
+ * @author Gurparkash
+ * @version 15-03-18
+ */
 public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 	public QWidget horizontalLayoutWidget;
 	public QHBoxLayout mainLayout;
@@ -10,6 +16,7 @@ public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 	public QVBoxLayout userLayout;
 	public QListWidget clients;
 	public QPushButton disconnect;
+	public Server server;
 
 	public Ui_ChatServer() {
 		super();
@@ -24,7 +31,6 @@ public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 		sizePolicy.setVerticalStretch((byte) 0);
 		sizePolicy.setHeightForWidth(ChatServer.sizePolicy().hasHeightForWidth());
 		ChatServer.setSizePolicy(sizePolicy);
-		//ChatServer.setLayoutDirection(Qt::LeftToRight);
 		ChatServer.setSizeGripEnabled(false);
 		ChatServer.setModal(false);
 		horizontalLayoutWidget = new QWidget(ChatServer);
@@ -33,7 +39,6 @@ public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 		mainLayout = new QHBoxLayout(horizontalLayoutWidget);
 		mainLayout.setSpacing(10);
 		mainLayout.setObjectName("mainLayout");
-		//mainLayout.setSizeConstraint(QLayout::SetMinimumSize);
 		mainLayout.setContentsMargins(10, 10, 10, 10);
 		messages = new QListWidget(horizontalLayoutWidget);
 		messages.setObjectName("messages");
@@ -52,7 +57,6 @@ public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 		userLayout = new QVBoxLayout();
 		userLayout.setSpacing(10);
 		userLayout.setObjectName("userLayout");
-		//userLayout.setSizeConstraint(QLayout::SetMinimumSize);
 		userLayout.setContentsMargins(0, -1, -1, -1);
 		clients = new QListWidget(horizontalLayoutWidget);
 		clients.setObjectName("clients");
@@ -66,10 +70,7 @@ public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 		clients.setMinimumSize(new QSize(100, 270));
 		clients.setMaximumSize(new QSize(16777215, 16777215));
 		clients.setBaseSize(new QSize(0, 0));
-		//clients.setMovement(QListView::Snap);
-		//clients.setResizeMode(QListView::Adjust);
 		clients.setSortingEnabled(true);
-
 		userLayout.addWidget(clients);
 
 		disconnect = new QPushButton(horizontalLayoutWidget);
@@ -95,14 +96,19 @@ public class Ui_ChatServer implements com.trolltech.qt.QUiForm<QDialog> {
 	void retranslateUi(QDialog ChatServer) {
 		ChatServer.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("ChatServer", "Chat Server", null));
 		disconnect.setText(com.trolltech.qt.core.QCoreApplication.translate("ChatServer", "Disconnect User", null));
+		disconnect.clicked.connect(this, "remove()");
 	} // retranslateUi
 
-	public static void main(String[] args) {
-		QApplication.initialize(args);
-		QDialog d = new QDialog();
-		Ui_ChatServer ui = new Ui_ChatServer();
-		ui.setupUi(d);
-		d.show();
-		QApplication.execStatic();
+	
+	/**
+	 * Funktion fuer den disconnet Button, entfernt den ausgewählten Benutzer.
+	 */
+	public void remove() {
+		String x = clients.currentItem().text();
+		System.out.println(server.usermap.get(x));
+		// output von map ist komischerweise 0 muss das hinterfragen
+		clients.currentItem().dispose();
+
 	}
+
 }
